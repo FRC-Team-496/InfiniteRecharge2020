@@ -23,6 +23,10 @@ import edu.wpi.first.wpilibj.util.Color;
  */
 public final class Constants {
 
+    public static final class ControlPanelConstants {
+        
+    }
+
     public static final class ColorConstants {
         /* Color Targets for Control Disc/Color Sensor */
         public static Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);

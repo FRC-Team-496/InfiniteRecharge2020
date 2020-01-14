@@ -15,14 +15,15 @@ import frc.robot.subsystems.ControlDisc;
 public class RotateThreeTimes extends CommandBase {
 
   private final ControlDisc m_controldisc;
-  private String startColor, currentColor;
+  private String startColor, currentColor, lastColor;
   private int rotations, colorCount;
+  
   /**
    * Creates a new RotateThreeTimes.
    */
-  public RotateThreeTimes(ControlDisc subsystem2) {
+  public RotateThreeTimes(ControlDisc m_controlDisc2) {
 
-    m_controldisc = subsystem2;
+    m_controldisc = m_controlDisc2;
     // Use addRequirements() here to declare subsystem dependencies.
 
     addRequirements(m_controldisc);
@@ -32,22 +33,35 @@ public class RotateThreeTimes extends CommandBase {
   @Override
   public void initialize() {
     startColor = m_controldisc.getColorString();
+    colorCount = 0;
+    rotations = 0;
+    currentColor = null;
+    lastColor = null;
+    System.out.println("Rotate 3 Times Started");
+    System.out.println("Start Color: " + startColor);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    m_controldisc.setMotor(0.15);
     currentColor = m_controldisc.getColorString();
-    if(startColor.equals(currentColor)) {
+    System.out.println("Start Color: " + startColor);
+    if(startColor.equals(currentColor) && !currentColor.equals(lastColor)) {
       colorCount++;
     }
+    lastColor = currentColor;
+    System.out.println("Current Color: " + currentColor);
+    System.out.println("Count " + colorCount);
     rotations = colorCount/2;
+    System.out.println("rotations: " + rotations);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_controldisc.stop();
+    System.out.println("Rotate 3 times ended");
   }
 
   // Returns true when the command should end.

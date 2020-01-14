@@ -17,6 +17,8 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,9 +33,10 @@ public class ControlDisc extends SubsystemBase {
   private final ColorSensorV3 m_colorSensor;
   private final ColorMatch m_colorMatcher;
   private final I2C.Port i2cPort;
+  private final Victor motor;
 
   public ControlDisc() {
-    
+    motor = new Victor(4);
     i2cPort = I2C.Port.kOnboard;
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
@@ -77,6 +80,15 @@ public class ControlDisc extends SubsystemBase {
     }
     
   }
+
+  public void setMotor(double speed ){
+    this.motor.set(speed);
+  }
+
+  public void stop() {
+    this.motor.set(0);
+  }
+  
 
 
   public Color getColor() {
