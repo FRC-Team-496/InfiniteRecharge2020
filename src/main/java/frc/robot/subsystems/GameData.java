@@ -56,6 +56,7 @@ public class GameData extends SubsystemBase {
           gameColor = "yellow";
           break;
         default:
+          gameColor = null;
           break;
       }
 
