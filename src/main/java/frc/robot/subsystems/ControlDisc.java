@@ -36,11 +36,12 @@ public class ControlDisc extends SubsystemBase {
   private final ColorMatch m_colorMatcher;
   private final I2C.Port i2cPort;
   private final Victor motor;
-  private final Encoder encoder;
+  private final Encoder m_encoder;
 
   public ControlDisc() {
     motor = new Victor(4);
-    encoder = new Encoder(6,7);
+    m_encoder = new Encoder(6,7);
+    m_encoder.setDistancePerPulse(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
     i2cPort = I2C.Port.kOnboard;
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
@@ -97,5 +98,9 @@ public class ControlDisc extends SubsystemBase {
 
   public Color getColor() {
     return m_colorSensor.getColor();
+  }
+
+  public double getRotations() {
+    return m_encoder.getDistance();
   }
 }

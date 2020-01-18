@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.subsystems.ControlDisc;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,19 +18,20 @@ public class RotatePID extends PIDCommand {
   /**
    * Creates a new RotatePID.
    */
-  public RotatePID() {
+  public RotatePID(double distance, ControlDisc disc) {
     super(
         // The controller that the command will use
         new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> 0,
+        () -> disc::getRotations,
         // This should return the setpoint (can also be a constant)
-        () -> 0,
+        () -> distance,
         // This uses the output
-        output -> {
+        output -> disc::setMotor(output) 
           // Use the output here
-        });
+        );
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(disc);
     // Configure additional PID options by calling `getController` here.
   }
 
