@@ -8,10 +8,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Rotate;
+import frc.robot.commands.RotateThreeTimes;
+import frc.robot.subsystems.ControlDisc;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.GameData;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,6 +33,13 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  private final ControlDisc m_controlDisc = new ControlDisc();
+  private final Subsystem m_gameData = new GameData();
+
+  private final Joystick m_operator = new Joystick(1);
+
+
+  
 
 
   /**
@@ -42,6 +57,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    final JoystickButton a = new JoystickButton(m_operator,1);
+    
+    a.whenPressed(new RotateThreeTimes(m_controlDisc));
+    //a.whileHeld(new Rotate(m_controlDisc));
   }
 
 
